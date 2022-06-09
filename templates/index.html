@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap&_v=20220517002322" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.min.css?_v=20220517002322">
+    <title>Главная</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+    <div class="header__container">
+        <div class="header__info">
+            <div class="header__subtitle">Заведующий Попов А. И.</div>
+            <h1 class="header__title">Общежитие института АИПК</h1>
+        </div>
+        <div class="header__list">
+            <div class="header__list-title">Системный администратор:</div>
+            <div class="header__list-content">
+                <div class="header__list-img">
+                    <img src="/static/img/key.svg" alt="key">
+                </div>
+                <div class="header__list-items">
+                    <div class="header__list-item">
+                        <div class="tel"><a href="tel:+79999999999">+7-999-999-99-99</a></div>
+                    </div>
+                    <div class="header__list-item">
+                        <div class="mail"><a href="mailto:admin@inbox.ru">admin@inbox.ru</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <main class="main">
+            <div class="menu">
+                <div class="menu__container">
+                    <ul>
+                        <li><a href="{{'/residents'}}" class="menu__link">Проживающие</a></li>
+                        <li><a href="{{'/rooms'}}" class="menu__link">Комнаты</a></li>
+                        <li><a href="{{'/documents'}}" class="menu__link">Документы</a></li>
+                    </ul>
+                </div>
+            </div>
+            <section class="main-info">
+                <div class="main-info__container">
+                    <h3 class="main-info__title">Здравствуйте, Попов А. И.</h3>
+                    <div class="main-info__text">
+                        <p>Просмотреть информацию о проживающих, добавить, удалить или редактировать список - меню:
+                            проживающие.
+                        </p>
+                        <p>Просмотреть информацию о комнатах общежития - меню: комнаты.</p>
+                        <p>Просмотреть документацию общежития - меню: документы. </p>
+                        <br>
+                        <p>В случае возникновения технических неполадок или вопросов, обратите внимание на правый
+                            верхний
+                            угол
+                            программы, где указана контактная информация вашего системного администратора!</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer"></footer>
+    </div>
+    <script src="/static/js/app.min.js?_v=20220517002322"></script>
+</body>
+
+</html>

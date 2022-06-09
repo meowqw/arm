@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap&_v=20220517002322"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.min.css?_v=20220517002322">
+    <title>Проживающие</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="header__container">
+                <div class="header__info">
+                    <div class="header__subtitle">Заведующий Попов А. И.</div>
+                    <div class="header__nav">
+                        <h2 class="header__title">Проживающие</h2>
+                        <button class="header__button" onclick="window.history.back()">Назад</button>
+                        <button class="header__button" onClick='location.href="{{"/"}}"'>На главную</button>
+                    </div>
+                </div>
+                <div class="header__list">
+                    <div class="header__list-title">Системный администратор:</div>
+                    <div class="header__list-content">
+                        <div class="header__list-img">
+                            <img src="/static/img/key.svg" alt="key">
+                        </div>
+                        <div class="header__list-items">
+                            <div class="header__list-item">
+                                <div class="tel"><a href="tel:+79999999999">+7-999-999-99-99</a></div>
+                            </div>
+                            <div class="header__list-item">
+                                <div class="mail"><a href="mailto:admin@inbox.ru">admin@inbox.ru</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="menu">
+                <div class="menu__container-other">
+                    <a href="#popup__add-redidents" class="menu__button button popup-link">Добавить</a>
+                    <form action="{{'/search/res'}}" method="post" class="menu__search search">
+                        <input type="text" id="search" name="text">
+                        <button type="submit" class="search__button button">Найти</button>
+                    </form>
+                </div>
+            </div>
+            <section class="main-table">
+                <div class="main-table__container">
+                    <table class="main-table__table">
+                        <tbody>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Паспортные данные</th>
+                                <th>Адрес регистрации</th>
+                                <th>Дата рождения</th>
+                                <th>Договор</th>
+                                <th>Комната</th>
+                                <th class="cell__buttons"></th>
+                            </tr>
+                            {% for i in residents %}
+                            <tr>
+                                <td>{{ i.fio }} <br> <input value="{{ i.fio }}" style="display: none; width: 90%;"
+                                        name="{{i.id}}" id="fio"></input></td>
+                                <td>{{ i.passport}} <br> <input value="{{ i.passport }}"
+                                        style="display: none; width: 90%" name="{{i.id}}" id="passport"></input></td>
+                                <td>{{ i.address }} <br> <input value="{{ i.address }}"
+                                        style="display: none; width: 90%" name="{{i.id}}" id="address"></input></td>
+                                <td>{{ i.bd }} <br> <input value="{{ i.bd }}" style="display: none; width: 90%"
+                                        name="{{i.id}}" id="bd"></input></td>
+                                <td>{{ i.contract }} <br> <input list="contractList" value="{{ i.contract }}"
+                                        style="display: none; width: 90%" name="{{i.id}}" id="contract"></input>
+                                    <datalist id="contractList">
+                                        {% for c in contractList%}
+                                        <option value={{c}}>
+                                            {% endfor %}
+                                    </datalist>
+                                </td>
+                                <td>{{ i.room }} <br> <input list="roomList" value="{{ i.room }}"
+                                        style="display: none; width: 90%" name="{{i.id}}" id="room"></input>
+                                    <datalist id="roomList">
+                                        {% for r in roomList%}
+                                        <option value={{r}}>
+                                            {% endfor %}
+                                    </datalist>
+                                </td>
+                                <button onclick="saveRes({{i.id}})" name="{{i.id}}" style="display: none"
+                                    class="button button__table">Сохранить</button>
+                                <button onclick="reload1()" style="display: none" class="button button__table"
+                                    id="rel">Обновить</button>
+
+                                <td class="cell__buttons">
+
+                                    <button onclick="editRes({{i.id}})"
+                                        class="button button__table">Редактировать</button>
+                                    <a href="/del/residents/{{i.id}}" class="button button__table">Удалить</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+        <script>
+
+            function editRes(id) {
+                el = document.getElementsByName(id);
+                for (var i = 0; i < el.length; i++) {
+                    el[i].style.display = 'inline';
+                }
+
+            };
+            function saveRes(id) {
+                el = document.getElementsByName(id);
+                data = '';
+                for (var i = 0; i < el.length; i++) {
+                    el[i].style.display = 'inline';
+                    data += el[i].value + '<>';
+
+                }
+                fetch('/edit/residents', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 'id': id, 'data': data })
+                });
+
+                for (var i = 0; i < el.length; i++) {
+                    el[i].style.display = 'None';
+                }
+                document.getElementById('rel').style.display = 'inline';
+
+            }
+
+            function reload1() {
+                window.location.reload();
+            }
+        </script>
+        <footer class="footer"></footer>
+    </div>
+    <!-- ПОПАП -->
+    <div id="popup__add-redidents" class="popup popup__add-redidents">
+        <div class="popup__body">
+            <div class="popup__content">
+                <div class="popup__header">
+                    <h2 class="popup__title">Внесите данные:</h2>
+                </div>
+                <div class="popup__preform">
+                    <!-- Форма проживания -->
+                    <form action="{{ '/residents' }}" method="post" class="popup__form form">
+                        <span>
+                            <input class="form__input" id="surname" type="text" placeholder="Введите ФИО" name="fio"
+                                required /><label for="surname">ФИО</label>
+                        </span>
+                        <!-- <span>
+                        <input class="form__input" id="name" type="text" placeholder="Введите Имя" required /><label
+                            for="name">Имя</label>
+                    </span>
+                    <span>
+                        <input class="form__input" id="patronymic" type="text" placeholder="Введите Отчество"
+                            required /><label for="patronymic">Отчество</label>
+                    </span> -->
+                        <span>
+                            <input class="form__input" id="birthday" type="text" placeholder="Введите Дату Рождения"
+                                name="bd" required /><label for="birthday">Дата Рождения</label>
+                        </span>
+                        <p>Паспорт:</p>
+                        <span>
+                            <input class="form__input" id="number" type="text" placeholder="Серия и номер"
+                                name="passport" required /><label for="number">Серия и номер</label>
+                        </span>
+                        <span>
+                            <input class="form__input" id="by-whom" type="text" placeholder="Кем выдан" name="pass_who"
+                                required /><label for="by-whom">Кем выдан</label>
+                        </span>
+                        <span>
+                            <input class="form__input" id="date" type="text" placeholder="Дата выдачи" name="pass_d"
+                                required /><label for="date">Дата выдачи</label>
+                        </span>
+                        <span>
+                            <input class="form__input" id="address" type="text" placeholder="Адрес регистрации"
+                                name="address" required /><label for="address">Адрес регистрации</label>
+                        </span>
+                        <span>
+                            <input class="form__input" id="treaty" list="contractList" type="text" placeholder="Договор"
+                                name="contract" required /><label for="treaty">Договор</label>
+                            <datalist id="contractList">
+                                {% for c in contractList%}
+                                <option value={{c}}>
+                                    {% endfor %}
+                            </datalist>
+                        </span>
+                        <span>
+                            <input class="form__input" id="room" list="roomList" type="text" placeholder="Комната"
+                                name="room" required /><label for="room">Комната</label>
+                            <datalist id="roomList">
+                                {% for r in roomList%}
+                                <option value={{r}}>
+                                    {% endfor %}
+                            </datalist>
+                        </span>
+                        <div class="form__buttons">
+                            <button type="button" class="header__button button close-popup"
+                                onclick="window.history.back()">Назад</button>
+                            <button type="form" class="form__button button">Добавить</button>
+                        </div>
+                    </form>
+                    <!-- --- -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- --- -->
+    <script src="/static/js/app.min.js?_v=20220517002322"></script>
+</body>
+
+</html>

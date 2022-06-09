@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap&_v=20220517002322" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.min.css?_v=20220517002322">
+    <title>Документы</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+    <div class="header__container">
+        <div class="header__info">
+            <div class="header__subtitle">Заведующий Попов А. И.</div>
+            <div class="header__nav">
+                <h2 class="header__title">Документы</h2>
+                <button class="header__button" onclick="window.history.back()">Назад</button>
+                <button class="header__button" onClick='location.href="{{"/"}}"'>На главную</button>
+            </div>
+        </div>
+        <div class="header__list">
+            <div class="header__list-title">Системный администратор:</div>
+            <div class="header__list-content">
+                <div class="header__list-img">
+                    <img src="/static/img/key.svg" alt="key">
+                </div>
+                <div class="header__list-items">
+                    <div class="header__list-item">
+                        <div class="tel"><a href="tel:+79999999999">+7-999-999-99-99</a></div>
+                    </div>
+                    <div class="header__list-item">
+                        <div class="mail"><a href="mailto:admin@inbox.ru">admin@inbox.ru</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <main class="main">
+            <div class="menu">
+                <div class="menu__container-other">
+                    <a href="#popup__add-documents" class="menu__button button popup-link">Добавить</a>
+                    <p>К каждому договору приложены копии документов нанимателя</p>
+                    <form action="{{'/search/doc'}}" method="post" class="menu__search search">
+                        <input type="text" id="search" name="text">
+                        <button type="submit" class="search__button button">Найти</button>
+                    </form>
+                </div>
+            </div>
+            <section class="main-table">
+                <div class="main-table__container">
+                    <table class="main-table__table">
+                        <tbody>
+                            <tr>
+                                <th>Номер договора</th>
+                                <th>Дата заключения</th>
+                                <th>Дата окончания действия</th>
+                                <th>Наниматель</th>
+                                <th class="cell__buttons"></th>
+                            </tr>
+                            {% for i in documents%}
+                            <tr>
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.date_s.date() }}</td>
+                                <td>{{ i.date_e.date()}}</td>
+                                <td>{{ i.employer }}</td>
+                                <td class="cell__buttons">
+                                    <button class="button button__table">PDF</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+        <footer class="footer"></footer>
+    </div>
+    <!-- ПОПАП -->
+    <div id="popup__add-documents" class="popup popup__add-room">
+    <div class="popup__body">
+        <div class="popup__content">
+            <div class="popup__header">
+                <h2 class="popup__title">Внесите данные:</h2>
+            </div>
+            <div class="popup__preform">
+                <!-- Форма проживания -->
+                <form action="{{'/documents'}}" method="post" class="popup__form form">
+                    <span>
+                        <input class="form__input" id="number" type="number" placeholder="Введите Номер" name="number"
+                            required /><label for="number">Номер Договора</label>
+                    </span>
+                    <span>
+                        <input class="form__input" id="date" type="date" placeholder="Дату Заключения" name="date_s" required /><label
+                            for="date">Дата Заключения</label>
+                    </span>
+                    <span>
+                        <input class="form__input" id="last-date" type="date" name="date_e" placeholder="Дату Окончания"
+                            required /><label for="last-date">Дата Окончания</label>
+                    </span>
+                    <span>
+                        <input class="form__input" id="people" type="text" name="employer" placeholder="Введите ФИО" required /><label
+                            for="people">Наниматель</label>
+                    </span>
+                    <div class="form__buttons-pdf">
+                        <button class="button" type="button">Копии документов</button>
+                        <button class="button" type="button">Ссылка на PDF</button>
+                    </div>
+                    <div class="form__buttons">
+                        <button type="button" class="header__button button close-popup"
+                            onclick="window.history.back()">Назад</button>
+                        <button type="form" class="form__button button">Добавить</button>
+                    </div>
+                </form>
+                <!-- --- -->
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- --- -->
+    <script src="/static/js/app.min.js?_v=20220517002322"></script>
+</body>
+
+</html>
